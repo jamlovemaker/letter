@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write a Letter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #ffe6e6;
+        }
+        .heart {
+            font-size: 50px;
+            color: red;
+        }
+        textarea {
+            width: 80%;
+            height: 200px;
+            margin: 20px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: red;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <audio id="background-music" loop>
+        <source src="Heaven By Your Side.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <button class="button" onclick="playMusic()">Play Music 🎵</button>
+    
+    <div class="heart">❤️</div>
+    <h1>Write a Letter</h1>
+    <textarea id="letter" placeholder="Write your letter here..."></textarea>
+    <br>
+    <button class="button" onclick="shareLetter()">Share</button>
+    <script>
+        function playMusic() {
+            const music = document.getElementById('background-music');
+            music.play();
+        }
+
+        function shareLetter() {
+            const letter = document.getElementById('letter').value;
+            const encodedLetter = encodeURIComponent(letter);
+            const shareLink = `${window.location.origin}${window.location.pathname}?letter=${encodedLetter}`;
+            navigator.clipboard.writeText(shareLink);
+            alert('Link copied! Share it with your loved one.');
+        }
+
+        function loadLetterFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('letter')) {
+                document.getElementById('letter').value = decodeURIComponent(params.get('letter'));
+            }
+        }
+
+        window.onload = loadLetterFromURL;
+    </script>
+</body>
+</html>
